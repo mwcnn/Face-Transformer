@@ -67,8 +67,9 @@ def main(args):
 
     for ver in vers:
         name, data_set, issame = ver
-        accuracy, std, xnorm, best_threshold, roc_curve = perform_val(MULTI_GPU, DEVICE, 512, args.batch_size,
-                                                                      model, data_set, issame)
+        accuracy, std, xnorm, best_threshold, roc_curve_tensor = perform_val(MULTI_GPU, DEVICE, 512, 
+                                                                             args.batch_size, model, 
+                                                                             data_set, issame)
         print('[%s]XNorm: %1.5f' % (name, xnorm))
         print('[%s]Accuracy-Flip: %1.5f+-%1.5f' % (name, accuracy, std))
         print('[%s]Best-Threshold: %1.5f' % (name, best_threshold))

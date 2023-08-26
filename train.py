@@ -118,7 +118,7 @@ if __name__ == '__main__':
         f.write(str(cfg))
     print("=" * 60)
 
-    writer = SummaryWriter(WORK_PATH) # writer for buffering intermedium results
+    writer = SummaryWriter(os.path.join(WORK_PATH, "logs")) # writer for buffering intermedium results
     torch.backends.cudnn.benchmark = True
 
     with open(os.path.join(DATA_ROOT, 'property'), 'r') as f:
