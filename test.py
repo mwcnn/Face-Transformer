@@ -17,7 +17,7 @@ def main(args):
     print(args)
     MULTI_GPU = False
     DEVICE = torch.device("cuda:0")
-    DATA_ROOT = '/raid/Data/ms1m-retinaface-t1/'
+    DATA_ROOT = args.data
     with open(os.path.join(DATA_ROOT, 'property'), 'r') as f:
         NUM_CLASS, h, w = [int(i) for i in f.read().split(',')]
 
@@ -25,7 +25,7 @@ def main(args):
         model = ViT_face(
             image_size=112,
             patch_size=8,
-            loss_type='CosFace',
+            loss_type=args.head,
             GPU_ID= DEVICE,
             num_class=NUM_CLASS,
             dim=512,
@@ -37,7 +37,7 @@ def main(args):
         )
     elif args.network == 'VITs':
         model = ViTs_face(
-            loss_type='CosFace',
+            loss_type=args.head,
             GPU_ID=DEVICE,
             num_class=NUM_CLASS,
             image_size=112,
@@ -78,12 +78,14 @@ def main(args):
 
 def parse_arguments(argv):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', default='', help='training set directory')
-    parser.add_argument('--network', default='VITs',
-                        help='training set directory')
-    parser.add_argument('--target', default='lfw,talfw,sllfw,calfw,cplfw,cfp_fp,agedb_30',
-                        help='')
-    parser.add_argument('--batch_size', type=int, help='', default=20)
+    parser.add_argument("--model", default="", help="model path", type=str)
+    parser.add_argument("--data", help="training set directory",default="./Data/ms1m-retinaface-t1/", type=str)
+    parser.add_argument("--network", default="VITs",
+                        help="which network, ['VIT','VITs']", type=str)
+    parser.add_argument("--head", help="head type, ['Softmax', 'ArcFace', 'CosFace', 'SFaceLoss']", default="ArcFace", type=str)
+    parser.add_argument("--target", default="lfw,talfw,sllfw,calfw,cplfw,cfp_fp,agedb_30",
+                        help="verification targets", type=str)
+    parser.add_argument("--batch_size", type=int, help="batch_size", default=20)
     return parser.parse_args(argv)
 
 
