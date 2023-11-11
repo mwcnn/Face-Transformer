@@ -6,6 +6,7 @@ from torch import nn
 
 from torch.nn import Parameter
 from IPython import embed
+from vit_pytorch.defian import Generator as DeFian
 
 MIN_NUM_PATCHES = 16
 
@@ -345,6 +346,8 @@ class ViT_face(nn.Module):
         assert num_patches > MIN_NUM_PATCHES, f'your number of patches ({num_patches}) is way too small for attention to be effective (at least 16). Try decreasing your patch size'
         assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
 
+        self.defian = DeFian(32, 4, 5, act=nn.ReLU(True), attention=True, scale=[2])
+
         self.patch_size = patch_size
 
         self.pos_embedding = nn.Parameter(torch.randn(1, num_patches + 1, dim))
@@ -375,8 +378,8 @@ class ViT_face(nn.Module):
                 self.loss = SFaceLoss(in_features=dim, out_features=num_class, device_id=self.GPU_ID)
 
     def forward(self, img, label= None , mask = None):
+        img = self.defian(img)
         p = self.patch_size
-
         x = rearrange(img, 'b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1 = p, p2 = p)
         x = self.patch_to_embedding(x)
         b, n, _ = x.shape
