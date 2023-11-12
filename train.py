@@ -123,7 +123,9 @@ if __name__ == '__main__':
 
     with open(os.path.join(DATA_ROOT, 'property'), 'r') as f:
         NUM_CLASS, h, w = [int(i) for i in f.read().split(',')]
-    assert h == INPUT_SIZE[0] and w == INPUT_SIZE[1]
+        
+    # Change h and w to x2 because we use DeFian with 2x scale    
+    assert h*2 == INPUT_SIZE[0] and w*2 == INPUT_SIZE[1]
 
     dataset = FaceDataset(os.path.join(DATA_ROOT, 'train.rec'), rand_mirror=True)
     trainloader = torch.utils.data.DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=len(GPU_ID), drop_last=True)
@@ -139,7 +141,7 @@ if __name__ == '__main__':
                          loss_type = HEAD_NAME,
                          GPU_ID = GPU_ID,
                          num_class = NUM_CLASS,
-                         image_size=112,
+                         image_size=224,
                          patch_size=8,
                          dim=512,
                          depth=20,
@@ -152,7 +154,7 @@ if __name__ == '__main__':
                          loss_type=HEAD_NAME,
                          GPU_ID=GPU_ID,
                          num_class=NUM_CLASS,
-                         image_size=112,
+                         image_size=224,
                          patch_size=8,
                          ac_patch_size=12,
                          pad = 4,
