@@ -23,7 +23,7 @@ def main(args):
 
     if args.network == 'VIT' :
         model = ViT_face(
-            image_size=112,
+            image_size=224,
             patch_size=8,
             loss_type=args.head,
             GPU_ID= DEVICE,
@@ -40,7 +40,7 @@ def main(args):
             loss_type=args.head,
             GPU_ID=DEVICE,
             num_class=NUM_CLASS,
-            image_size=112,
+            image_size=224,
             patch_size=8,
             ac_patch_size=12,
             pad=4,
