@@ -12,6 +12,7 @@ from image_iter import FaceDataset
 import torch.utils.data as data
 import argparse
 import os
+import matplotlib.pyplot as plt
 
 def main(args):
     print(args)
@@ -74,6 +75,14 @@ def main(args):
         print('[%s]Accuracy-Flip: %1.5f+-%1.5f' % (name, accuracy, std))
         print('[%s]Best-Threshold: %1.5f' % (name, best_threshold))
         acc.append(accuracy)
+        plt.figure(figsize=(8, 8))
+        plt.imshow(roc_curve_tensor.numpy().transpose((1, 2, 0)))  # Ubah urutan dimensi jika perlu
+        plt.axis('off')  # Matikan sumbu x dan y
+        plt.title(name + 'ROC Curve')
+        filename = name + '_ROC_curve.png'
+        plt.savefig(filename, bbox_inches='tight')
+        print('[%s]ROC Curve saved to [%s]' % (name, filename))
+        plt.close()
     print('Average-Accuracy: %1.5f' % (np.mean(acc)))
 
 def parse_arguments(argv):
