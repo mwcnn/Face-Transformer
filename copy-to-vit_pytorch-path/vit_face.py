@@ -338,7 +338,9 @@ class Transformer(nn.Module):
 
 
 class ViT_face(nn.Module):
-    def __init__(self, *, loss_type, GPU_ID, num_class, image_size, patch_size, dim, depth, heads, mlp_dim, pool = 'cls', channels = 3, dim_head = 64, dropout = 0., emb_dropout = 0., defian_layer=True):
+    def __init__(self, *, loss_type, GPU_ID, num_class, image_size, 
+                 patch_size, dim, depth, heads, mlp_dim, pool = 'cls', 
+                 channels = 3, dim_head = 64, dropout = 0., emb_dropout = 0., defian_layer):
         super().__init__()
         assert image_size % patch_size == 0, 'Image dimensions must be divisible by the patch size.'
         num_patches = (image_size // patch_size) ** 2

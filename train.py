@@ -48,7 +48,7 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--target", help="verification targets", default='lfw,talfw,calfw,cplfw,cfp_fp,agedb_30', type=str)
     parser.add_argument("-r", "--resume", help="resume model", default='', type=str)
     parser.add_argument('--outdir', help="output dir", default='', type=str)
-    parser.add_argument("-df", "--defian", help="use defian layer, True/False", default=True, type=bool)
+    parser.add_argument("-df", "--defian", help="use defian layer, True/False", action="store_true")
     
     parser.add_argument('--opt', default='adamw', type=str, metavar='OPTIMIZER',
                         help='Optimizer (default: "adamw"')
@@ -125,9 +125,10 @@ if __name__ == '__main__':
 
     with open(os.path.join(DATA_ROOT, 'property'), 'r') as f:
         NUM_CLASS, h, w = [int(i) for i in f.read().split(',')]
-        
-    # Change h and w to x2 because we use DeFian with 2x scale    
-    assert h*2 == INPUT_SIZE[0] and w*2 == INPUT_SIZE[1]
+       
+    if DEFIAN_LAYER: 
+        # Change h and w to x2 because we use DeFian with 2x scale    
+        assert h*2 == INPUT_SIZE[0] and w*2 == INPUT_SIZE[1]
 
     dataset = FaceDataset(os.path.join(DATA_ROOT, 'train.rec'), rand_mirror=True)
     trainloader = torch.utils.data.DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=len(GPU_ID), drop_last=True)
@@ -143,7 +144,7 @@ if __name__ == '__main__':
                          loss_type = HEAD_NAME,
                          GPU_ID = GPU_ID,
                          num_class = NUM_CLASS,
-                         image_size=224,
+                         image_size=INPUT_SIZE[0],
                          patch_size=8,
                          dim=512,
                          depth=20,
@@ -157,7 +158,7 @@ if __name__ == '__main__':
                          loss_type=HEAD_NAME,
                          GPU_ID=GPU_ID,
                          num_class=NUM_CLASS,
-                         image_size=224,
+                         image_size=INPUT_SIZE[0],
                          patch_size=8,
                          ac_patch_size=12,
                          pad = 4,
@@ -213,7 +214,13 @@ if __name__ == '__main__':
     losses = AverageMeter()
     top1 = AverageMeter()
 
-
+    if DEFIAN_LAYER:
+        print("Use Defian Layer")
+        print("==================================")
+    else:
+        print("Not using Defian Layer")
+        print("==================================")
+        
     BACKBONE.train()  # set to training mode
     for epoch in range(NUM_EPOCH): # start training process
         
