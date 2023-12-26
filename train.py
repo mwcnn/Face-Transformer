@@ -216,10 +216,10 @@ if __name__ == '__main__':
 
     if DEFIAN_LAYER:
         print("Use Defian Layer")
-        print("==================================")
+        print("=" * 60)
     else:
         print("Not using Defian Layer")
-        print("==================================")
+        print("=" * 60)
         
     BACKBONE.train()  # set to training mode
     for epoch in range(NUM_EPOCH): # start training process
