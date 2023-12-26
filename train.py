@@ -48,7 +48,7 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--target", help="verification targets", default='lfw,talfw,calfw,cplfw,cfp_fp,agedb_30', type=str)
     parser.add_argument("-r", "--resume", help="resume model", default='', type=str)
     parser.add_argument('--outdir', help="output dir", default='', type=str)
-    parser.add_argument("-df", "--defian", help="use defian layer, True/False", default='True', type=bool)
+    parser.add_argument("-df", "--defian", help="use defian layer, True/False", default=True, type=bool)
     
     parser.add_argument('--opt', default='adamw', type=str, metavar='OPTIMIZER',
                         help='Optimizer (default: "adamw"')
