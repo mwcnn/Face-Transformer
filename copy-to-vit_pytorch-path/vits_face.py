@@ -340,14 +340,16 @@ class Transformer(nn.Module):
 
 class ViTs_face(nn.Module):
     def __init__(self, *, loss_type, GPU_ID, num_class, image_size, patch_size, ac_patch_size,
-                         pad, dim, depth, heads, mlp_dim, pool = 'cls', channels = 3, dim_head = 64, dropout = 0., emb_dropout = 0.):
+                         pad, dim, depth, heads, mlp_dim, pool = 'cls', channels = 3, dim_head = 64, 
+                         dropout = 0., emb_dropout = 0., defian_layer=True):
         super().__init__()
         assert image_size % patch_size == 0, 'Image dimensions must be divisible by the patch size.'
         num_patches = (image_size // patch_size) ** 2
         patch_dim = channels * ac_patch_size ** 2
         assert num_patches > MIN_NUM_PATCHES, f'your number of patches ({num_patches}) is way too small for attention to be effective (at least 16). Try decreasing your patch size'
         assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
-
+        
+        self.defian_layer = defian_layer
         self.defian = DeFian(32, 4, 5, act=nn.ReLU(True), attention=True, scale=[2])
         
         self.patch_size = patch_size
@@ -382,7 +384,8 @@ class ViTs_face(nn.Module):
                 self.loss = SFaceLoss(in_features=dim, out_features=num_class, device_id=self.GPU_ID)
 
     def forward(self, img, label= None , mask = None):
-        img = self.defian(img)
+        if self.defian_layer:
+            img = self.defian(img)
         p = self.patch_size
         x = self.soft_split(img).transpose(1, 2)
         x = self.patch_to_embedding(x)

@@ -31,7 +31,7 @@ def get_config(args):
     if args.data_mode == 'retina':
         configuration['DATA_ROOT'] = './Data/ms1m-retinaface-t1/'
     elif args.data_mode == 'casia':
-        configuration['DATA_ROOT'] = './Data/faces_webface_112x112/'
+        configuration['DATA_ROOT'] = './Data/faces_webface/'
     elif args.data_mode == 'itb_face':
         configuration['DATA_ROOT'] = './Data/itb_face_112/'
     else:
@@ -41,6 +41,7 @@ def get_config(args):
     configuration['BACKBONE_NAME'] = args.net
     assert args.head in ['Softmax', 'ArcFace', 'CosFace', 'SFaceLoss']
     configuration['HEAD_NAME'] = args.head
+    configuration['DEFIAN_LAYER'] = args.defian
     configuration['TARGET'] = [i for i in args.target.split(',')]
 
     if args.resume:

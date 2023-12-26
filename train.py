@@ -48,7 +48,8 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--target", help="verification targets", default='lfw,talfw,calfw,cplfw,cfp_fp,agedb_30', type=str)
     parser.add_argument("-r", "--resume", help="resume model", default='', type=str)
     parser.add_argument('--outdir', help="output dir", default='', type=str)
-
+    parser.add_argument("-df", "--defian", help="use defian layer, True/False", default='True', type=bool)
+    
     parser.add_argument('--opt', default='adamw', type=str, metavar='OPTIMIZER',
                         help='Optimizer (default: "adamw"')
     parser.add_argument('--opt-eps', default=1e-8, type=float, metavar='EPSILON',
@@ -100,7 +101,8 @@ if __name__ == '__main__':
 
     BACKBONE_NAME = cfg['BACKBONE_NAME']
     HEAD_NAME = cfg['HEAD_NAME'] # support:  ['Softmax', 'ArcFace', 'CosFace', 'SFaceLoss']
-
+    DEFIAN_LAYER = cfg['DEFIAN_LAYER']
+    
     INPUT_SIZE = cfg['INPUT_SIZE']
     EMBEDDING_SIZE = cfg['EMBEDDING_SIZE'] # feature dimension
     BATCH_SIZE = cfg['BATCH_SIZE']
@@ -148,7 +150,8 @@ if __name__ == '__main__':
                          heads=8,
                          mlp_dim=2048,
                          dropout=0.1,
-                         emb_dropout=0.1
+                         emb_dropout=0.1,
+                         defian_layer=DEFIAN_LAYER
                      ),
                      'VITs': ViTs_face(
                          loss_type=HEAD_NAME,
@@ -163,7 +166,8 @@ if __name__ == '__main__':
                          heads=8,
                          mlp_dim=2048,
                          dropout=0.1,
-                         emb_dropout=0.1
+                         emb_dropout=0.1,
+                         defian_layer=DEFIAN_LAYER
                      )}
     BACKBONE = BACKBONE_DICT[BACKBONE_NAME]
     print("=" * 60)
