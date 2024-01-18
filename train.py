@@ -206,8 +206,8 @@ if __name__ == '__main__':
         BACKBONE = BACKBONE.to(DEVICE)
 
     #======= train & validation & save checkpoint =======#
-    DISP_FREQ = 10 # frequency to display training loss & acc
-    VER_FREQ = 20
+    DISP_FREQ = 500 # frequency to display training loss & acc
+    VER_FREQ = 5000
 
     batch = 0  # batch index
 
