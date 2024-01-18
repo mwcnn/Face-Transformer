@@ -18,6 +18,7 @@ from vit_pytorch import ViTs_face
 from IPython import embed
 from timm.scheduler import create_scheduler
 from timm.optim import create_optimizer
+from torchsummary import summary
 
 
 def need_save(acc, highest_acc):
@@ -204,6 +205,8 @@ if __name__ == '__main__':
     else:
         # single-GPU setting
         BACKBONE = BACKBONE.to(DEVICE)
+        
+    summary(BACKBONE, (3, 112, 112))
 
     #======= train & validation & save checkpoint =======#
     DISP_FREQ = 500 # frequency to display training loss & acc
