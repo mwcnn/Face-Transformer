@@ -19,7 +19,7 @@ def get_time():
     return (str(datetime.now())[:-10]).replace(' ', '-').replace(':', '-')
 
 
-def load_bin(path, image_size=[224, 224]):
+def load_bin(path, image_size=[112, 112]):
     bins, issame_list = pickle.load(open(path, 'rb'), encoding='bytes')
     data_list = []
     for flip in [0,1]:
