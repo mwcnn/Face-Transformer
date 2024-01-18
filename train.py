@@ -43,7 +43,7 @@ if __name__ == '__main__':
     parser.add_argument("-w", "--workers_id", help="gpu ids or cpu", default='cpu', type=str)
     parser.add_argument("-e", "--epochs", help="training epochs", default=125, type=int)
     parser.add_argument("-b", "--batch_size", help="batch_size", default=256, type=int)
-    parser.add_argument("-d", "--data_mode", help="use which database, [casia, vgg, ms1m, retina, ms1mr]",default='ms1m', type=str)
+    parser.add_argument("-d", "--data_mode", help="use which database, [casia, casia_mod, vgg, ms1m, retina, ms1mr]",default='ms1m', type=str)
     parser.add_argument("-n", "--net", help="which network, ['VIT','VITs']",default='VITs', type=str)
     parser.add_argument("-head", "--head", help="head type, ['Softmax', 'ArcFace', 'CosFace', 'SFaceLoss']", default='ArcFace', type=str)
     parser.add_argument("-t", "--target", help="verification targets", default='lfw,talfw,calfw,cplfw,cfp_fp,agedb_30', type=str)

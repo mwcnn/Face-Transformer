@@ -30,8 +30,10 @@ def get_config(args):
 
     if args.data_mode == 'retina':
         configuration['DATA_ROOT'] = './Data/ms1m-retinaface-t1/'
-    elif args.data_mode == 'casia':
+    elif args.data_mode == 'casia_mod':
         configuration['DATA_ROOT'] = './Data/faces_webface/'
+    elif args.data_mode == 'casia':
+        configuration['DATA_ROOT'] = './Data/faces_webface_112x112'
     elif args.data_mode == 'itb_face':
         configuration['DATA_ROOT'] = './Data/itb_face_112/'
     else:
