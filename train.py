@@ -209,8 +209,8 @@ if __name__ == '__main__':
     summary(BACKBONE, (3, 112, 112))
 
     #======= train & validation & save checkpoint =======#
-    DISP_FREQ = 500 # frequency to display training loss & acc
-    VER_FREQ = 5000
+    DISP_FREQ = 50 # frequency to display training loss & acc
+    VER_FREQ = 1000
 
     batch = 0  # batch index
 
